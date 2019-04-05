@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<robot name="sample_robot">
+
+<!-- *** urdf file *** -->
+  <link name="world"/>
+<!-- base -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.1"/>
+      </geometry>
+      <material name="silver">
+        <color rgba="0.75 0.75 0.75 1"/>
+      </material>
+      <origin rpy="0 0 0" xyz="0 0 0.025"/>
+    </visual>
+  </link>
+  <joint name="fixed" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+
+  <link name="torso_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.2" radius="0.05"/>
+      </geometry>
+      <material name="silver">
+        <color rgba="0.75 0.75 0.75 1"/>
+      </material>
+      <origin rpy="0 0 0" xyz="0 0 0.1"/>
+    </visual>
+  </link>
+  <joint name="torso_joint" type="revolute">
+    <axis xyz="0 0 1"/>
+    <parent link="base_link"/>
+    <child link="torso_link"/>
+    <origin rpy="0 0 0" xyz="0.0 0.0 0.05"/>
+    <limit lower="-6.28" upper="6.28" effort="500" velocity="100" />
+  </joint>
+
+  <link name="shoulder_link">
+    <visual>
+      <geometry>
+        <box size="0.4 0.05 0.02"/>
+      </geometry>
+      <material name="silver"/>
+      <origin rpy="0 0 0" xyz="0.2 0 0"/>
+    </visual>
+  </link>
+  <joint name="shoulder_joint" type="revolute">
+    <axis xyz="0 0 1"/>
+    <parent link="torso_link"/>
+    <child link="shoulder_link"/>
+    <origin rpy="0 0 0" xyz="0.0 0.0 0.21"/>
+    <limit lower="-6.28" upper="6.28" effort="500" velocity="100" />
+  </joint>
+
+  <link name="elbow_link">
+    <visual>
+      <geometry>
+        <box size="0.2 0.05 0.02"/>
+      </geometry>
+      <material name="silver"/>
+      <origin rpy="0 0 0" xyz="0.1 0 0"/>
+    </visual>
+  </link>
+  <joint name="elbow_joint" type="revolute">
+    <axis xyz="0 0 1"/>
+    <parent link="shoulder_link"/>
+    <child link="elbow_link"/>
+    <origin rpy="0 0 0" xyz="0.35 0.0 -0.025"/>
+    <limit lower="-6.28" upper="6.28" effort="500" velocity="100" />
+  </joint>
+
+  <link name="eef_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.2" radius="0.01"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+  </link>
+  <joint name="eef_joint" type="prismatic">
+    <axis xyz="0 0 1"/>
+    <parent link="elbow_link"/>
+    <child link="eef_link"/>
+    <origin rpy="0 0 0" xyz="0.202 0.0 0.0"/>
+    <limit lower="0.0" upper="0.05" effort="500" velocity="100" />
+  </joint>
+</robot>
+

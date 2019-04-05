@@ -1,0 +1,11 @@
+joint_state_controller:
+  type: "joint_state_controller/JointStateController"
+  publish_rate: 50
+
+seed_controller:
+  type: "position_controllers/JointTrajectoryController"
+  joints:
+    - torso_joint
+    - shoulder_joint
+    - elbow_joint
+    - eef_joint

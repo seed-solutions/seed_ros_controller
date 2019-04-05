@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="calibration" default="true"/>
+  <arg name="model" default="sample_robot.urdf" />
+
+  <node name="seed_ros_controller" pkg="seed_ros_controller" type="seed_ros_controller_node" output="screen">
+    <param name="port_name" value="/dev/ttyACM0" />
+    <param name="controller_rate" value="50"  /> <!-- [ Hz ] ( rate of read/write cycle) -->
+    <param name="calibration" value="$(arg calibration)"/>
+  </node>
+
+  <rosparam file="$(find seed_ros_controller)/config/hardware.yaml" command="load"/>
+  <rosparam file="$(find seed_ros_controller)/config/controllers.yaml" command="load"/>
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" args="joint_state_controller seed_controller"/>
+
+  <node name="seed_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+  <param name="robot_description"  textfile="$(find seed_ros_controller)/urdf/$(arg model)"/>
+
+<!--
+  <node name="rqt_joint_trajectory_controller" pkg="rqt_joint_trajectory_controller" type="rqt_joint_trajectory_controller"/>
+  <node name="rviz" pkg="rviz" type="rviz"/>
+-->
+
+</launch>

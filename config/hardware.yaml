@@ -1,0 +1,17 @@
+hardware_interface:
+  joint_settings:
+    name:
+      - torso_joint
+      - shoulder_joint
+      - elbow_joint
+      - eef_joint
+    id:
+      - 1
+      - 2
+      - 3
+      - 4
+    actuator:
+      - HA
+      - BA
+      - HA
+      - BA42
